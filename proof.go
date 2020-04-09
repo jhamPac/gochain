@@ -3,7 +3,9 @@ package gochain
 import (
 	"bytes"
 	"crypto/sha256"
+	"encoding/binary"
 	"fmt"
+	"log"
 	"math"
 	"math/big"
 )
@@ -57,4 +59,24 @@ func (p *ProofOfWork) Run() (int, []byte) {
 
 	fmt.Println()
 	return nonce, hash[:]
+}
+
+func (p *ProofOfWork) Validate() bool {
+	var intHash big.Int
+
+	data := p.InitData(p.Block.Nonce)
+
+	hash := sha256.Sum256(data)
+	intHash.SetBytes(hash[:])
+
+	return intHash.Cmp(p.Target) == -1
+}
+
+func ToHex(num int64) []byte {
+	buff := new(bytes.Buffer)
+	err := binary.Write(buff, binary.BigEndian, num)
+	if err != nil {
+		log.Panic(err)
+	}
+	return buff.Bytes()
 }
