@@ -33,9 +33,9 @@ func CreateBlock(data string, prevHash []byte) *Block {
 
 // AddBlock adds a Block to the chain
 func (bc *BlockChain) AddBlock(data string) {
-	prevBlock := bc.blocks[len(bc.blocks)-1]
+	prevBlock := bc.Blocks[len(bc.Blocks)-1]
 	new := CreateBlock(data, prevBlock.Hash)
-	bc.blocks = append(bc.blocks, new)
+	bc.Blocks = append(bc.Blocks, new)
 }
 
 // Genesis creates the first block to start a chain
