@@ -1,14 +1,13 @@
-package main
+package gochain
 
 import (
 	"bytes"
 	"crypto/sha256"
-	"fmt"
 )
 
 // BlockChain is a standard chain with a slice of Blocks
 type BlockChain struct {
-	blocks []*Block
+	Blocks []*Block
 }
 
 // Block represents a node in the BlockChain
@@ -48,18 +47,4 @@ func Genesis() *Block {
 func InitBlockChain() *BlockChain {
 	slice := []*Block{Genesis()}
 	return &BlockChain{slice}
-}
-
-func main() {
-	chain := InitBlockChain()
-
-	chain.AddBlock("First block after Genesis")
-	chain.AddBlock("Second block after Genesis")
-	chain.AddBlock("Third block after Genesis")
-
-	for _, block := range chain.blocks {
-		fmt.Printf("Previous Hash: %x\n", block.PrevHash)
-		fmt.Printf("Data in Block: %s\n", block.Data)
-		fmt.Printf("Hash: %x\n:", block.Hash)
-	}
 }
