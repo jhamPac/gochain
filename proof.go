@@ -10,13 +10,16 @@ import (
 	"math/big"
 )
 
+// Difficulty simulates the chain POW difficulty like on Bitcoin
 const Difficulty = 10
 
+// ProofOfWork object to determine network difficulty
 type ProofOfWork struct {
 	Block  *Block
 	Target *big.Int
 }
 
+// NewProof creates a POW for the chain
 func NewProof(b *Block) *ProofOfWork {
 	target := big.NewInt(1)
 	target.Lsh(target, uint(256-Difficulty))
@@ -25,6 +28,7 @@ func NewProof(b *Block) *ProofOfWork {
 	return pow
 }
 
+// InitData initializes a POW object using a nonce
 func (p *ProofOfWork) InitData(nonce int) []byte {
 	data := bytes.Join(
 		[][]byte{
@@ -37,6 +41,7 @@ func (p *ProofOfWork) InitData(nonce int) []byte {
 	return data
 }
 
+// Run exectues a proof of work
 func (p *ProofOfWork) Run() (int, []byte) {
 	var intHash big.Int
 	var hash [32]byte
@@ -61,6 +66,7 @@ func (p *ProofOfWork) Run() (int, []byte) {
 	return nonce, hash[:]
 }
 
+// Validate ensures blocks are valid with the POW target
 func (p *ProofOfWork) Validate() bool {
 	var intHash big.Int
 
@@ -72,6 +78,7 @@ func (p *ProofOfWork) Validate() bool {
 	return intHash.Cmp(p.Target) == -1
 }
 
+// ToHex converts an int to a hex number
 func ToHex(num int64) []byte {
 	buff := new(bytes.Buffer)
 	err := binary.Write(buff, binary.BigEndian, num)
