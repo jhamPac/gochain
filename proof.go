@@ -11,7 +11,7 @@ import (
 )
 
 // Difficulty simulates the chain POW difficulty like on Bitcoin
-const Difficulty = 10
+const Difficulty = 18
 
 // ProofOfWork object to determine network difficulty
 type ProofOfWork struct {
